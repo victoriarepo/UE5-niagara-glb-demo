@@ -25,9 +25,12 @@ ATestActor::ATestActor()
 	mesh_component2->AttachToComponent(scene_root, FAttachmentTransformRules::KeepRelativeTransform);
 	//mesh_component2->SetVisibility(false);
 
+	FString reference = "/Script/Niagara.NiagaraSystem'/Game/sprite_burst.sprite_burst'";
+	niagara_system = Cast<UNiagaraSystem>(StaticLoadObject(UNiagaraSystem::StaticClass(), nullptr, *reference));
+
 	niagara_component = CreateDefaultSubobject<UNiagaraComponent>(TEXT("niagara_component"));
 	niagara_component->AttachToComponent(mesh_component, FAttachmentTransformRules::KeepRelativeTransform);
-	//niagara_component
+	niagara_component->SetAsset(niagara_system);
 
 }
 
@@ -48,10 +51,13 @@ void ATestActor::BeginPlay()
 	static_mesh_config.bAllowCPUAccess = true;
 
 	static_mesh = asset->LoadStaticMeshRecursive(FString(), TArray<FString>(), static_mesh_config);
+	static_mesh->bAllowCPUAccess = true;
 	mesh_component->SetStaticMesh((static_mesh == nullptr) ? nullptr : static_mesh);
 
 	//static_mesh2 = asset->LoadStaticMeshRecursive(FString("Object_8"), TArray<FString>(), static_mesh_config);
 	//mesh_component2->SetStaticMesh((static_mesh2 == nullptr) ? nullptr : static_mesh2);
+
+	niagara_component->SetVariableObject(FName(TEXT("object_param")), static_mesh);
 	
 }
 
