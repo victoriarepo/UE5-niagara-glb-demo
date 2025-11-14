@@ -1,0 +1,6 @@
+[submodule "MyProject/Plugins/--force"]
+	path = MyProject/Plugins/--force
+	url = https://github.com/rdeioris/glTFRuntime.git
+[submodule "MyProject/Plugins/glTFRuntime"]
+	path = MyProject/Plugins/glTFRuntime
+	url = https://github.com/rdeioris/glTFRuntime.git
